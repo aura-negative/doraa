@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>dhāgā — matrimony, on your terms</title>
+<meta name="description" content="dhāgā is a matrimony and dating app for meaningful, intent-led matches. Structured profiles, chat only after mutual interest, no GPS tracking, free to use.">
+<meta property="og:title" content="dhāgā — matrimony, on your terms">
+<meta property="og:description" content="A matrimony and dating app for meaningful, intent-led matches.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dhagamatrimony.in/">
+<meta name="theme-color" content="#fdf7fa">
+<link rel="icon" href="assets/logo.png">
+<link rel="apple-touch-icon" href="assets/logo.png">
+<style>
+  :root {
+    color-scheme: light dark;
+    --ink: #201a16;
+    --ink-soft: #5b5049;
+    --ink-mute: #8a7d73;
+    --bg: #fdf7fa;
+    --bg-raised: #ffffff;
+    --bg-sunk: #fbeaf1;
+    --line: #f2cfe0;
+    --brand: #c2185b;
+    --brand-strong: #8b1c5c;
+    --brand-tint: #ffd6e6;
+    --accent: #7a4a8c;
+    --accent-tint: #f1e3f5;
+    --focus: #1a63c4;
+    --radius: 1.1rem;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #f3e8ee;
+      --ink-soft: #cbb6c4;
+      --ink-mute: #9a8794;
+      --bg: #170f14;
+      --bg-raised: #211620;
+      --bg-sunk: #1c1219;
+      --line: #3d2534;
+      --brand: #ff7eb6;
+      --brand-strong: #ffa6ce;
+      --brand-tint: #4a1030;
+      --accent: #c9a3d6;
+      --accent-tint: #2c2333;
+      --focus: #6fa8f2;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    color: var(--ink);
+    background: var(--bg);
+  }
+  a { color: var(--brand); }
+  a:focus-visible, button:focus-visible, .btn:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+  img { max-width: 100%; }
+  .wrap { max-width: 68rem; margin: 0 auto; padding: 0 1.5rem; }
+  .wrap-narrow { max-width: 46rem; margin: 0 auto; padding: 0 1.5rem; }
+
+  /* ---------- nav ---------- */
+  .site-nav {
+    position: sticky; top: 0; z-index: 20;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .site-nav .row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: .85rem 0;
+  }
+  .brand-mark { display: flex; align-items: center; gap: .5rem; text-decoration: none; }
+  .brand-mark .glyph {
+    width: 2rem; height: 2rem; border-radius: .6rem;
+    overflow: hidden;
+    flex: none;
+  }
+  .brand-mark .glyph img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .brand-mark .word { font-size: 1.15rem; font-weight: 700; color: var(--ink); letter-spacing: .01em; }
+  .site-nav nav { display: flex; gap: 1.5rem; align-items: center; }
+  .site-nav nav a:not(.btn) {
+    color: var(--ink-soft); text-decoration: none; font-size: .92rem; font-weight: 600;
+  }
+  .site-nav nav a:not(.btn):hover { color: var(--brand); }
+  .nav-links { display: flex; gap: 1.5rem; }
+  @media (max-width: 640px) { .nav-links { display: none; } }
+
+  /* ---------- buttons ---------- */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: .45rem;
+    padding: .75rem 1.5rem;
+    border-radius: .65rem;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: .95rem;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .btn-primary { background: var(--brand); color: #fff; box-shadow: 0 6px 16px -6px color-mix(in srgb, var(--brand) 60%, transparent); }
+  .btn-primary:hover { background: var(--brand-strong); }
+  .btn-secondary { background: transparent; color: var(--brand); border-color: var(--brand); }
+  .btn-secondary:hover { background: var(--brand-tint); }
+  .btn-ghost { background: var(--bg-sunk); color: var(--ink); border-color: var(--line); }
+  .btn[aria-disabled="true"] { opacity: .55; cursor: default; pointer-events: none; }
+  .btn small { font-weight: 500; opacity: .85; }
+  .btn-stack { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.15; }
+  .btn-stack .top { font-size: .68rem; text-transform: uppercase; letter-spacing: .05em; }
+  .btn-stack .bottom { font-size: 1rem; }
+
+  /* ---------- hero ---------- */
+  .hero {
+    padding: 4.5rem 0 3rem;
+    display: grid; grid-template-columns: 1.05fr .95fr; gap: 3rem; align-items: center;
+  }
+  @media (max-width: 880px) {
+    .hero { grid-template-columns: 1fr; text-align: center; padding-top: 3rem; }
+    .hero .cta-row, .hero .trust-row { justify-content: center; }
+  }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: .4rem;
+    background: var(--brand-tint); color: var(--brand-strong);
+    font-size: .8rem; font-weight: 700; letter-spacing: .03em;
+    padding: .35rem .8rem; border-radius: 2rem; margin-bottom: 1.1rem;
+  }
+  .hero h1 {
+    font-size: clamp(2.1rem, 4.2vw, 3.1rem);
+    line-height: 1.12;
+    margin: 0 0 1rem;
+    letter-spacing: -.01em;
+  }
+  .hero h1 em { color: var(--brand); font-style: normal; }
+  .hero .lede { font-size: 1.15rem; color: var(--ink-soft); margin: 0 0 2rem; max-width: 34rem; }
+  .cta-row { display: flex; gap: .8rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .trust-row {
+    display: flex; gap: 1.5rem; flex-wrap: wrap;
+    font-size: .85rem; color: var(--ink-mute);
+  }
+  .trust-row span { display: flex; align-items: center; gap: .4rem; }
+  .trust-row svg { flex: none; color: var(--brand); }
+
+  /* ---------- phone mockup ---------- */
+  .phone-stage { display: flex; justify-content: center; position: relative; }
+  .phone-stage::before {
+    content: ""; position: absolute; inset: -2rem;
+    background: radial-gradient(closest-side, color-mix(in srgb, var(--brand) 18%, transparent), transparent 70%);
+    z-index: 0;
+  }
+  .phone {
+    position: relative; z-index: 1;
+    width: 15.5rem;
+    aspect-ratio: 9/19.5;
+    background: #100c0a;
+    border-radius: 2.1rem;
+    padding: .55rem;
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,.45), 0 0 0 1px rgba(0,0,0,.35);
+  }
+  .phone .screen {
+    position: relative;
+    width: 100%; height: 100%;
+    border-radius: 1.6rem;
+    overflow: hidden;
+    background: var(--bg-raised);
+    display: flex; flex-direction: column;
+  }
+  .phone .notch {
+    position: absolute; top: .4rem; left: 50%; transform: translateX(-50%);
+    width: 4.2rem; height: .45rem; border-radius: 1rem; background: #100c0a; z-index: 3;
+  }
+  .phone .app-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.15rem .9rem .5rem;
+    font-family: Georgia, serif; font-weight: 700; font-size: 1rem; color: var(--brand);
+  }
+  .phone .card {
+    margin: 0 .55rem; flex: 1;
+    border-radius: 1rem;
+    background: linear-gradient(160deg, #e7b98f, #c98a63 55%, #a6674a);
+    position: relative;
+    overflow: hidden;
+  }
+  .phone .card .grain {
+    position: absolute; inset: 0;
+    background: linear-gradient(0deg, rgba(0,0,0,.55), rgba(0,0,0,0) 55%);
+  }
+  .phone .card .info {
+    position: absolute; left: .75rem; right: .75rem; bottom: .7rem;
+    color: #fff;
+  }
+  .phone .card .info .name { font-weight: 700; font-size: .95rem; }
+  .phone .card .info .loc { font-size: .68rem; opacity: .9; display: flex; align-items: center; gap: .3rem; margin-top: .15rem; }
+  .phone .tabbar {
+    display: flex; justify-content: space-around;
+    padding: .55rem 0 .7rem;
+    border-top: 1px solid var(--line);
+    font-size: .58rem; color: var(--ink-mute);
+  }
+  .phone .tabbar .active { color: var(--brand); font-weight: 700; }
+  .phone .tabbar div { display: flex; flex-direction: column; align-items: center; gap: .2rem; }
+  .float-chip {
+    position: absolute; z-index: 2;
+    background: var(--bg-raised); border: 1px solid var(--line);
+    border-radius: .8rem; padding: .55rem .7rem;
+    font-size: .78rem; font-weight: 600;
+    box-shadow: 0 12px 24px -12px rgba(0,0,0,.25);
+    display: flex; align-items: center; gap: .4rem;
+  }
+  .float-chip.match { top: 12%; left: -1.5rem; color: var(--brand-strong); }
+  .float-chip.safe { bottom: 18%; right: -1.7rem; color: var(--accent); }
+  @media (max-width: 880px) {
+    .float-chip.match { left: 0; }
+    .float-chip.safe { right: 0; }
+  }
+  @media (max-width: 420px) {
+    .float-chip { display: none; }
+  }
+
+  /* ---------- sections ---------- */
+  section { padding: 3.5rem 0; }
+  .section-head { text-align: center; max-width: 34rem; margin: 0 auto 2.5rem; }
+  .section-head .eyebrow { margin-bottom: .75rem; }
+  .section-head h2 { font-size: clamp(1.5rem, 2.6vw, 2rem); margin: 0 0 .6rem; letter-spacing: -.01em; }
+  .section-head p { color: var(--ink-soft); margin: 0; font-size: 1.02rem; }
+
+  .features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+  @media (max-width: 780px) { .features { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px) { .features { grid-template-columns: 1fr; } }
+  .feature {
+    background: var(--bg-raised);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+  }
+  .feature .icon {
+    width: 2.6rem; height: 2.6rem; border-radius: .75rem;
+    background: var(--brand-tint); color: var(--brand-strong);
+    display: grid; place-items: center; margin-bottom: 1rem;
+  }
+  .feature h3 { font-size: 1.02rem; margin: 0 0 .4rem; }
+  .feature p { margin: 0; color: var(--ink-soft); font-size: .92rem; }
+
+  .band {
+    background: var(--bg-sunk);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .steps {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
+    counter-reset: step;
+  }
+  @media (max-width: 780px) { .steps { grid-template-columns: 1fr; gap: 2.25rem; } }
+  .step { position: relative; padding-left: 3.4rem; }
+  .step::before {
+    counter-increment: step; content: counter(step);
+    position: absolute; left: 0; top: 0;
+    width: 2.5rem; height: 2.5rem; border-radius: 50%;
+    background: var(--bg-raised); border: 2px solid var(--brand);
+    color: var(--brand); font-weight: 700; font-size: 1.05rem;
+    display: grid; place-items: center;
+  }
+  .step h3 { margin: 0 0 .4rem; font-size: 1.02rem; }
+  .step p { margin: 0; color: var(--ink-soft); font-size: .92rem; }
+
+  .safety-grid {
+    display: grid; grid-template-columns: 1.1fr 1fr; gap: 3rem; align-items: center;
+  }
+  @media (max-width: 780px) { .safety-grid { grid-template-columns: 1fr; } }
+  .safety-list { list-style: none; margin: 1.5rem 0 0; padding: 0; display: grid; gap: 1rem; }
+  .safety-list li { display: flex; gap: .8rem; align-items: flex-start; }
+  .safety-list .tick {
+    flex: none; width: 1.6rem; height: 1.6rem; border-radius: 50%;
+    background: var(--brand-tint); color: var(--brand-strong);
+    display: grid; place-items: center; margin-top: .1rem;
+  }
+  .safety-list strong { display: block; font-size: .95rem; }
+  .safety-list span { color: var(--ink-soft); font-size: .88rem; }
+  .safety-card {
+    background: var(--bg-raised); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 2rem; text-align: center;
+  }
+  .safety-card .big { font-size: 2.4rem; font-weight: 700; color: var(--brand); }
+  .safety-card .cap { color: var(--ink-mute); font-size: .82rem; margin-top: .25rem; }
+  .safety-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  .safety-stats .divider { grid-column: 1 / -1; height: 1px; background: var(--line); margin: .25rem 0; }
+
+  .cta-band {
+    text-align: center;
+    background: linear-gradient(155deg, var(--brand-tint), var(--accent-tint));
+    border-radius: 1.5rem;
+    padding: 3.5rem 2rem;
+  }
+  .cta-band h2 { font-size: clamp(1.6rem, 3vw, 2.1rem); margin: 0 0 .6rem; }
+  .cta-band p { color: var(--ink-soft); margin: 0 0 1.75rem; }
+  .cta-band .cta-row { justify-content: center; margin-bottom: 0; }
+
+  .faq { display: grid; gap: .75rem; max-width: 42rem; margin: 0 auto; }
+  .faq details {
+    background: var(--bg-raised); border: 1px solid var(--line); border-radius: .8rem;
+    padding: 1rem 1.25rem;
+  }
+  .faq summary {
+    cursor: pointer; font-weight: 600; font-size: .96rem;
+    list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: "+"; font-size: 1.3rem; color: var(--brand); flex: none; }
+  .faq details[open] summary::after { content: "\2212"; }
+  .faq p { margin: .75rem 0 0; color: var(--ink-soft); font-size: .92rem; }
+
+  footer {
+    margin-top: 1rem;
+    padding: 2.5rem 0 3rem;
+    font-size: .85rem;
+    color: var(--ink-mute);
+    border-top: 1px solid var(--line);
+  }
+  footer .row {
+    display: flex; flex-wrap: wrap; gap: 1rem 1.5rem;
+    justify-content: space-between; align-items: center;
+  }
+  footer nav { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+  footer nav a { color: var(--ink-mute); text-decoration: none; }
+  footer nav a:hover { color: var(--brand); }
+  footer .legal-row { margin-top: 1.25rem; }
+</style>
+</head>
+<body>
+
+<div class="site-nav">
+  <div class="wrap row">
+    <a class="brand-mark" href="#top">
+      <span class="glyph"><img src="assets/logo.png" alt=""></span>
+      <span class="word">dhāgā</span>
+    </a>
+    <nav>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="#safety">Safety</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <a class="btn btn-secondary" href="mailto:support@dhagamatrimony.in">Contact</a>
+    </nav>
+  </div>
+</div>
+
+<div class="wrap">
+  <header class="hero" id="top">
+    <div>
+      <span class="eyebrow">Now in early access</span>
+      <h1>A thread worth <em>following</em>, to a match worth keeping.</h1>
+      <p class="lede">dhāgā is a matrimony and dating app built around intent, not endless swiping. Filter by community, education, profession and location, and start talking only once the interest is mutual.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#" aria-disabled="true" aria-describedby="play-soon">
+          <span class="btn-stack">
+            <span class="top">Coming soon to</span>
+            <span class="bottom">Google Play</span>
+          </span>
+        </a>
+        <a class="btn btn-ghost" href="mailto:support@dhagamatrimony.in?subject=Early%20access">Request early access</a>
+      </div>
+      <p id="play-soon" style="font-size:.8rem;color:var(--ink-mute);margin:-.75rem 0 1.25rem;">Currently in private testing — the public listing goes live soon.</p>
+      <div class="trust-row">
+        <span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 4 5v6c0 5 3.4 9 8 11 4.6-2 8-6 8-11V5z"/></svg>
+          No GPS tracking, ever
+        </span>
+        <span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 4 5v6c0 5 3.4 9 8 11 4.6-2 8-6 8-11V5z"/><path d="m9 12 2 2 4-4"/></svg>
+          Report or block anyone, any time
+        </span>
+        <span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>
+          Free — no subscriptions
+        </span>
+      </div>
+    </div>
+
+    <div class="phone-stage">
+      <div class="float-chip match" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-6.7-4.3-9.3-8.4C.8 9.1 2 5.5 5.4 4.6c2-.5 3.9.3 5 1.8a1 1 0 0 0 1.6 0c1.1-1.5 3-2.3 5-1.8 3.4.9 4.6 4.5 2.7 8-2.6 4.1-9.3 8.4-9.3 8.4Z"/></svg>
+        It's a match
+      </div>
+      <div class="phone">
+        <div class="notch"></div>
+        <div class="screen">
+          <div class="app-bar"><span>dhāgā</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="7" y1="12" x2="17" y2="12"/><line x1="10" y1="18" x2="14" y2="18"/></svg>
+          </div>
+          <div class="card">
+            <div class="grain"></div>
+            <div class="info">
+              <div class="name">Ananya, 27</div>
+              <div class="loc">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C7.6 2 4 5.6 4 10c0 6 8 12 8 12s8-6 8-12c0-4.4-3.6-8-8-8Zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"/></svg>
+                Pune, Maharashtra
+              </div>
+            </div>
+          </div>
+          <div class="tabbar">
+            <div class="active">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="m3 9 9 6 9-6"/></svg>
+              Feed
+            </div>
+            <div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.4 8.4 0 0 1-8.9 8.4 8.7 8.7 0 0 1-3.4-.7L3 21l1.8-5.4A8.4 8.4 0 0 1 12.5 3a8.4 8.4 0 0 1 8.5 8.5Z"/></svg>
+              Inbox
+            </div>
+            <div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+              Profile
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="float-chip safe" aria-hidden="true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 4 5v6c0 5 3.4 9 8 11 4.6-2 8-6 8-11V5z"/></svg>
+        Block, both ways
+      </div>
+    </div>
+  </header>
+</div>
+
+<section id="features">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Why dhāgā</span>
+      <h2>Built for the relationship, not the swipe</h2>
+      <p>Every part of the app is designed to get you to a real conversation faster — and to keep you safe while you have it.</p>
+    </div>
+    <div class="features">
+      <div class="feature">
+        <div class="icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg>
+        </div>
+        <h3>Built for intent</h3>
+        <p>Profiles centre on community, education, profession and both your native place and current location — not just a photo grid.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 4 5v6c0 5 3.4 9 8 11 4.6-2 8-6 8-11V5z"/><path d="m9 12 2 2 4-4"/></svg>
+        </div>
+        <h3>Your safety first</h3>
+        <p>Block is instant and works both ways — you disappear from each other's feeds. Report a profile, a chat, or a single message any time.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C7.6 2 4 5.6 4 10c0 6 8 12 8 12s8-6 8-12c0-4.4-3.6-8-8-8Zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"/></svg>
+        </div>
+        <h3>No GPS tracking</h3>
+        <p>Location is a simple text hierarchy — country, state, district — never your precise device location.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.4 8.4 0 0 1-8.9 8.4 8.7 8.7 0 0 1-3.4-.7L3 21l1.8-5.4A8.4 8.4 0 0 1 12.5 3a8.4 8.4 0 0 1 8.5 8.5Z"/></svg>
+        </div>
+        <h3>Chat only after mutual interest</h3>
+        <p>Conversations open once you both express interest, so every message you send lands with someone who wants to hear it.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 2 2.5 6.5L21 11l-6.5 2.5L12 20l-2.5-6.5L3 11l6.5-2.5Z"/></svg>
+        </div>
+        <h3>Real profiles, real detail</h3>
+        <p>Education, profession, mother tongue, religion and more, drawn from structured lists rather than free text — the details families actually ask about, in one place.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg>
+        </div>
+        <h3>Works offline too</h3>
+        <p>Messages, photos and replies queue automatically when you lose signal and send the moment you're back online — nothing gets lost.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="band">
+  <div class="wrap" id="how-it-works" style="padding:3.5rem 0;">
+    <div class="section-head">
+      <span class="eyebrow">How it works</span>
+      <h2>Three steps to a real conversation</h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <h3>Create your profile</h3>
+        <p>Add your details and three photos. Takes a few minutes — if you get interrupted, your draft picks up right where you left off.</p>
+      </div>
+      <div class="step">
+        <h3>Discover matches</h3>
+        <p>Browse profiles filtered to what you're looking for. Express interest in the ones that fit.</p>
+      </div>
+      <div class="step">
+        <h3>Start talking</h3>
+        <p>When interest is mutual, the chat opens. Take it at your own pace, on your own terms.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section id="safety">
+  <div class="wrap safety-grid">
+    <div>
+      <span class="eyebrow">Safety</span>
+      <h2 style="font-size:clamp(1.5rem,2.6vw,2rem);margin:.5rem 0 0;">Designed so you're never stuck with someone you don't want to talk to</h2>
+      <ul class="safety-list">
+        <li>
+          <span class="tick"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 12 5 5L20 7"/></svg></span>
+          <div><strong>Block works both ways, instantly</strong><span>Blocked accounts disappear from your feed, and you from theirs — manage your list any time under Profile → Blocked Users.</span></div>
+        </li>
+        <li>
+          <span class="tick"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 12 5 5L20 7"/></svg></span>
+          <div><strong>Report a profile, a chat, or a single message</strong><span>Every report is reviewed by our team, and you can unmatch at any time.</span></div>
+        </li>
+        <li>
+          <span class="tick"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 12 5 5L20 7"/></svg></span>
+          <div><strong>18+ only</strong><span>Enforced at signup and again by our database — this isn't a self-certifying checkbox that goes nowhere.</span></div>
+        </li>
+        <li>
+          <span class="tick"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m5 12 5 5L20 7"/></svg></span>
+          <div><strong>No precise location, ever</strong><span>We only ever ask for country, state and district — never GPS coordinates.</span></div>
+        </li>
+      </ul>
+    </div>
+    <div class="safety-card">
+      <div class="safety-stats">
+        <div>
+          <div class="big">18+</div>
+          <div class="cap">Adults only, enforced at signup</div>
+        </div>
+        <div>
+          <div class="big">0</div>
+          <div class="cap">GPS pings collected</div>
+        </div>
+        <div class="divider"></div>
+        <div>
+          <div class="big">Both ways</div>
+          <div class="cap">Blocks apply in both directions</div>
+        </div>
+        <div>
+          <div class="big">₹0</div>
+          <div class="cap">Free — no subscriptions or purchases</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="cta-band">
+      <h2>Ready when you are</h2>
+      <p>dhāgā is in private testing right now. Ask for early access, or check back soon on Google Play.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="mailto:support@dhagamatrimony.in?subject=Early%20access">Request early access</a>
+        <a class="btn btn-secondary" href="#top">Back to top</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap-narrow">
+    <div class="section-head">
+      <span class="eyebrow">FAQ</span>
+      <h2>Good to know</h2>
+    </div>
+    <div class="faq">
+      <details>
+        <summary>Is dhāgā free to use?</summary>
+        <p>Yes — creating a profile, browsing matches, and messaging after a mutual match are all free.</p>
+      </details>
+      <details>
+        <summary>Which platforms is it available on?</summary>
+        <p>dhāgā is an Android app, currently in private testing ahead of its public Play Store listing.</p>
+      </details>
+      <details>
+        <summary>Do you track my location?</summary>
+        <p>No. We only ask for your country, state and district as text during onboarding — we never request or store GPS coordinates.</p>
+      </details>
+      <details>
+        <summary>Do you verify profiles or run background checks?</summary>
+        <p>No — we don't run identity or background checks on members. What we do give you is control: block anyone instantly (it works both ways), report a profile, a chat, or a single message for our team to review, and an 18+ minimum enforced at signup and again in our database.</p>
+      </details>
+      <details>
+        <summary>How do I delete my account or my data?</summary>
+        <p>Open Profile → Delete Account in the app, type your name to confirm, and it's gone immediately and permanently. If you can't sign in, email <a href="mailto:support@dhagamatrimony.in">support@dhagamatrimony.in</a> from your registered address and we'll do it for you. Full details are in our <a href="legal/delete-account.html">data deletion policy</a>.</p>
+      </details>
+      <details>
+        <summary>Who can I contact for support?</summary>
+        <p>Reach us any time at <a href="mailto:support@dhagamatrimony.in">support@dhagamatrimony.in</a>.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<div class="wrap">
+  <footer>
+    <div class="row">
+      <a class="brand-mark" href="#top">
+        <span class="glyph" style="width:1.6rem;height:1.6rem;"><img src="assets/logo.png" alt=""></span>
+        <span class="word" style="font-size:1rem;">dhāgā</span>
+      </a>
+      <nav>
+        <a href="#features">Features</a>
+        <a href="#how-it-works">How it works</a>
+        <a href="#safety">Safety</a>
+        <a href="#faq">FAQ</a>
+        <a href="mailto:support@dhagamatrimony.in">support@dhagamatrimony.in</a>
+      </nav>
+    </div>
+    <div class="row legal-row">
+      <span>© 2026 dhāgā</span>
+      <nav>
+        <a href="legal/privacy.html">Privacy Policy</a>
+        <a href="legal/terms.html">Terms of Service</a>
+        <a href="legal/delete-account.html">Delete Account</a>
+      </nav>
+    </div>
+  </footer>
+</div>
+
+</body>
+</html>
